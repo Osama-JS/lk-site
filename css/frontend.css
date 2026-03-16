@@ -642,6 +642,61 @@ img {
     border-radius: 5px;
 }
 
+/* ── Hero Swiper Navigation Arrows ─────────────────────────────── */
+.hero-section .swiper-button-next,
+.hero-section .swiper-button-prev {
+    width: 55px;
+    height: 55px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    transition: var(--transition-base);
+    z-index: 100;
+}
+
+.hero-section .swiper-button-next:after,
+.hero-section .swiper-button-prev:after {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.hero-section .swiper-button-next {
+    right: 40px;
+}
+.hero-section .swiper-button-prev {
+    left: 40px;
+}
+
+.hero-section .swiper-button-next:hover,
+.hero-section .swiper-button-prev:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-accent);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 991px) {
+    .hero-section .swiper-button-next,
+    .hero-section .swiper-button-prev {
+        width: 45px;
+        height: 45px;
+        bottom: 40px;
+        top: auto;
+    }
+    .hero-section .swiper-button-next { right: 20px; }
+    .hero-section .swiper-button-prev { left: 20px; }
+}
+
+@media (max-width: 768px) {
+    .hero-section .swiper-button-next,
+    .hero-section .swiper-button-prev {
+        display: none;
+    }
+}
+
 /* ================================================================
    FACTORY FEATURES SECTION
    ================================================================ */

@@ -73,6 +73,9 @@
             @endforelse
         </div>
         <div class="swiper-pagination"></div>
+        <!-- Navigation Arrows -->
+        <div class="swiper-button-next" style="z-index: 999; display: flex !important; opacity: 1 !important; visibility: visible !important;"></div>
+        <div class="swiper-button-prev" style="z-index: 999; display: flex !important; opacity: 1 !important; visibility: visible !important;"></div>
     </div>
 </section>
 
@@ -357,19 +360,72 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Hero Swiper
+    function initHeroSwiper() {
+        if (window.lkSwiperReady) return true;
+        
+        const heroContainer = document.querySelector('.heroSwiper');
         const heroSlides = document.querySelectorAll('.heroSwiper .swiper-slide');
-        if (heroSlides.length > 0) {
-            new Swiper('.heroSwiper', {
-                loop: heroSlides.length > 1,
-                speed: 1200,
-                autoplay: { delay: 6000, disableOnInteraction: false },
-                effect: 'fade',
-                fadeEffect: { crossFade: true },
-                pagination: { el: '.swiper-pagination', clickable: true },
-            });
+        const diag = document.getElementById('lk-diagnostic');
+        
+        console.log('LK-v4.5 Slider Check:', { 
+            swiperExists: typeof Swiper !== 'undefined',
+            container: !!heroContainer,
+            slides: heroSlides.length 
+        });
+
+        if (typeof Swiper !== 'undefined' && heroContainer && heroSlides.length > 0) {
+            try {
+                window.lkSwiper = new Swiper('.heroSwiper', {
+                    loop: heroSlides.length > 1,
+                    speed: 1000,
+                    autoplay: { 
+                        delay: 5000, 
+                        disableOnInteraction: false 
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: { 
+                        el: '.swiper-pagination', 
+                        clickable: true 
+                    },
+                    on: {
+                        init: function() {
+                            console.log('LK-v4.5 Slider: READY');
+                            if(diag) diag.innerHTML = 'v4.5 JS: SLIDER OK';
+                            if(diag) diag.style.background = '#e0f2fe';
+                        }
+                    }
+                });
+                window.lkSwiperReady = true;
+                return true;
+            } catch (e) {
+                console.error('LK-v4.5 Slider Error:', e);
+                if(diag) diag.innerHTML = 'v4.5 JS: SLIDER ERROR';
+                return false;
+            }
         }
-    });
+        return false;
+    }
+
+    function startSliderLogic() {
+        if (!initHeroSwiper()) {
+            let attempts = 0;
+            const timer = setInterval(() => {
+                attempts++;
+                if (initHeroSwiper() || attempts > 30) {
+                    clearInterval(timer);
+                    if (!window.lkSwiperReady) console.warn('LK-v4.5 Slider: Initialization failed after 30 attempts');
+                }
+            }, 500);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startSliderLogic);
+    } else {
+        startSliderLogic();
+    }
 </script>
 @endpush
