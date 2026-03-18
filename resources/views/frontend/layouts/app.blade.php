@@ -112,6 +112,49 @@
         var navbar = document.getElementById('siteNavbar');
         var waWidget = document.getElementById('waWidget');
         var waToggle = document.getElementById('waToggle');
+        
+        // Mobile Menu Elements
+        var mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        var closeMobileMenu = document.getElementById('closeMobileMenu');
+        var mobileMenu = document.getElementById('mobileMenu');
+
+        // Toggle Mobile Menu
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                mobileMenu.classList.add('open');
+            });
+        }
+
+        // Close Mobile Menu
+        if (closeMobileMenu && mobileMenu) {
+            closeMobileMenu.addEventListener('click', function(e) {
+                e.preventDefault();
+                mobileMenu.classList.remove('open');
+            });
+        }
+
+        // Mobile Submenu Toggle
+        var mobileNavLinks = document.querySelectorAll('.mobile-nav-link[data-submenu]');
+        mobileNavLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var submenuId = this.getAttribute('data-submenu');
+                var submenu = document.getElementById(submenuId);
+                var icon = this.querySelector('.fa-chevron-down');
+                
+                if (submenu) {
+                    if (submenu.classList.contains('open')) {
+                        submenu.classList.remove('open');
+                        if(icon) icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        submenu.classList.add('open');
+                        if(icon) icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+        });
 
         function updateNavbar() {
             var st = window.pageYOffset || document.documentElement.scrollTop;
