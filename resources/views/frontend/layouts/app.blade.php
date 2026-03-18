@@ -102,86 +102,88 @@
 
     <!-- Core LK Scripts (Moved up for priority) -->
     <script>
-    /* LK FRONTEND v4.3 - DIAGNOSTIC MODE */
-    console.log('LK v4.3 BOOTING...');
+    /* LK FRONTEND v4.4 - RE-SYNCHRONIZED */
+    console.log('LK v4.4 START');
+    
     window.addEventListener('DOMContentLoaded', function() {
-        console.log('LK v4.3 DOM READY');
-        var diag = document.getElementById('lk-diagnostic');
-        if(diag) diag.innerHTML = 'v4.3 JS: LOADED';
+        console.log('DOM OK');
+        const diag = document.getElementById('lk-diagnostic');
+        if (diag) diag.innerHTML = 'v4.4 LOADED';
 
-        var navbar = document.getElementById('siteNavbar');
-        var waWidget = document.getElementById('waWidget');
-        var waToggle = document.getElementById('waToggle');
-        
-        // Mobile Menu Elements
-        var mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        var closeMobileMenu = document.getElementById('closeMobileMenu');
-        var mobileMenu = document.getElementById('mobileMenu');
-
-        // Toggle Mobile Menu
-        if (mobileMenuToggle && mobileMenu) {
-            mobileMenuToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                mobileMenu.classList.add('open');
-            });
-        }
-
-        // Close Mobile Menu
-        if (closeMobileMenu && mobileMenu) {
-            closeMobileMenu.addEventListener('click', function(e) {
-                e.preventDefault();
-                mobileMenu.classList.remove('open');
-            });
-        }
-
-        // Mobile Submenu Toggle
-        var mobileNavLinks = document.querySelectorAll('.mobile-nav-link[data-submenu]');
-        mobileNavLinks.forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                var submenuId = this.getAttribute('data-submenu');
-                var submenu = document.getElementById(submenuId);
-                var icon = this.querySelector('.fa-chevron-down');
-                
-                if (submenu) {
-                    if (submenu.classList.contains('open')) {
-                        submenu.classList.remove('open');
-                        if(icon) icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        submenu.classList.add('open');
-                        if(icon) icon.style.transform = 'rotate(180deg)';
-                    }
-                }
-            });
-        });
+        const navbar = document.getElementById('siteNavbar');
+        const waWidget = document.getElementById('waWidget');
+        const waToggle = document.getElementById('waToggle');
 
         function updateNavbar() {
-            var st = window.pageYOffset || document.documentElement.scrollTop;
+            const st = window.pageYOffset || document.documentElement.scrollTop;
             if (navbar) {
                 if (st > 40) {
                     navbar.classList.add('scrolled');
-                    navbar.style.setProperty('background', '#ffffff', 'important');
-                    navbar.style.setProperty('box-shadow', '0 10px 30px rgba(0,0,0,0.1)', 'important');
+                    navbar.style.background = '#ffffff';
+                    navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
                 } else {
                     navbar.classList.remove('scrolled');
-                    navbar.style.setProperty('background', 'transparent', 'important');
-                    navbar.style.setProperty('box-shadow', 'none', 'important');
+                    navbar.style.background = 'transparent';
+                    navbar.style.boxShadow = 'none';
                 }
             }
         }
 
         if (waToggle && waWidget) {
-            waToggle.onclick = function(e) {
+            waToggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 waWidget.classList.toggle('open');
-                console.log('WA Clicked, open=' + waWidget.classList.contains('open'));
+            });
+        }
+
+        const mToggle = document.getElementById('mobileMenuToggle');
+        const mClose = document.getElementById('closeMobileMenu');
+        const mMenu = document.getElementById('mobileMenu');
+        const mSubTriggers = document.querySelectorAll('.mobile-nav-link[data-submenu]');
+
+        if (mToggle && mMenu) {
+            mToggle.onclick = function(e) {
+                e.preventDefault();
+                mMenu.classList.add('open');
+                document.body.style.overflow = 'hidden';
             };
         }
 
-        window.addEventListener('scroll', updateNavbar, { passive: true });
-        setInterval(updateNavbar, 300);
+        if (mClose && mMenu) {
+            mClose.onclick = function(e) {
+                e.preventDefault();
+                mMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            };
+        }
+
+        mSubTriggers.forEach(function(btn) {
+            btn.onclick = function(e) {
+                const subId = this.getAttribute('data-submenu');
+                const sub = document.getElementById(subId);
+                if (sub) {
+                    e.preventDefault();
+                    sub.classList.toggle('open');
+                    const icon = this.querySelector('.fa-chevron-down');
+                    if (icon) {
+                        icon.style.transform = sub.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                }
+            };
+        });
+
+        document.addEventListener('click', function(e) {
+            if (mMenu && mMenu.classList.contains('open')) {
+                if (!mMenu.contains(e.target) && !mToggle.contains(e.target)) {
+                    mMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        window.addEventListener('scroll', updateNavbar);
+        setInterval(updateNavbar, 350);
         updateNavbar();
     });
     </script>
