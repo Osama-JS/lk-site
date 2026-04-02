@@ -26,13 +26,15 @@ class SettingsSeeder extends Seeder
             ['key' => 'company_phone', 'value' => '+966 11 987 6543', 'type' => 'string', 'group' => 'contact'],
             ['key' => 'company_address_ar', 'value' => 'المنطقة الصناعية، الرياض، المملكة العربية السعودية', 'type' => 'text', 'group' => 'contact'],
             ['key' => 'company_address_en', 'value' => 'Industrial Area, Riyadh, Saudi Arabia', 'type' => 'text', 'group' => 'contact'],
-            ['key' => 'whatsapp_number', 'value' => '+966555555555', 'type' => 'string', 'group' => 'contact'],
+
 
             // Social Media (Matched with footer.blade.php)
             ['key' => 'facebook_url', 'value' => 'https://facebook.com/lktextiles', 'type' => 'string', 'group' => 'social'],
             ['key' => 'twitter_url', 'value' => 'https://twitter.com/lktextiles', 'type' => 'string', 'group' => 'social'],
             ['key' => 'instagram_url', 'value' => 'https://instagram.com/lktextiles', 'type' => 'string', 'group' => 'social'],
             ['key' => 'linkedin_url', 'value' => 'https://linkedin.com/company/lktextiles', 'type' => 'string', 'group' => 'social'],
+            ['key' => 'tiktok_url', 'value' => '', 'type' => 'string', 'group' => 'social'],
+            ['key' => 'snapchat_url', 'value' => '', 'type' => 'string', 'group' => 'social'],
 
             // Theme Settings (Matched with app.blade.php)
             ['key' => 'theme_primary_color', 'value' => '#1a1a2e', 'type' => 'string', 'group' => 'system'],

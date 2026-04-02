@@ -444,7 +444,21 @@
                                             @elseif($setting->type === 'email')
                                                 <i class="fas fa-envelope text-info"></i>
                                             @elseif($setting->type === 'url')
-                                                <i class="fas fa-link text-success"></i>
+                                                @if(str_contains($setting->key, 'facebook'))
+                                                    <i class="fab fa-facebook text-primary"></i>
+                                                @elseif(str_contains($setting->key, 'twitter'))
+                                                    <i class="fab fa-x-twitter text-dark"></i>
+                                                @elseif(str_contains($setting->key, 'instagram'))
+                                                    <i class="fab fa-instagram text-danger"></i>
+                                                @elseif(str_contains($setting->key, 'linkedin'))
+                                                    <i class="fab fa-linkedin text-primary"></i>
+                                                @elseif(str_contains($setting->key, 'tiktok'))
+                                                    <i class="fab fa-tiktok text-dark"></i>
+                                                @elseif(str_contains($setting->key, 'snapchat'))
+                                                    <i class="fab fa-snapchat-ghost text-warning"></i>
+                                                @else
+                                                    <i class="fas fa-link text-success"></i>
+                                                @endif
                                             @elseif($setting->type === 'color')
                                                 <i class="fas fa-palette text-warning"></i>
                                             @elseif($setting->type === 'textarea')

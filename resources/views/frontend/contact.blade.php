@@ -59,9 +59,12 @@
                         <div class="mt-5 pt-5 border-top border-white border-opacity-10">
                             <h6 class="fw-black text-accent mb-4">{{ __('تابعنا على') }}</h6>
                             <div class="social-circles d-flex gap-3">
-                                @if(setting('facebook_url')) <a href="{{ setting('facebook_url') }}" class="social-circle"><i class="fab fa-facebook-f"></i></a> @endif
-                                @if(setting('twitter_url')) <a href="{{ setting('twitter_url') }}" class="social-circle"><i class="fab fa-twitter"></i></a> @endif
-                                @if(setting('instagram_url')) <a href="{{ setting('instagram_url') }}" class="social-circle"><i class="fab fa-instagram"></i></a> @endif
+                                @if(setting('facebook_url')) <a href="{{ setting('facebook_url') }}" class="social-circle" target="_blank"><i class="fab fa-facebook-f"></i></a> @endif
+                                @if(setting('twitter_url')) <a href="{{ setting('twitter_url') }}" class="social-circle" target="_blank"><i class="fab fa-x-twitter"></i></a> @endif
+                                @if(setting('instagram_url')) <a href="{{ setting('instagram_url') }}" class="social-circle" target="_blank"><i class="fab fa-instagram"></i></a> @endif
+                                @if(setting('linkedin_url')) <a href="{{ setting('linkedin_url') }}" class="social-circle" target="_blank"><i class="fab fa-linkedin-in"></i></a> @endif
+                                @if(setting('tiktok_url')) <a href="{{ setting('tiktok_url') }}" class="social-circle" target="_blank"><i class="fab fa-tiktok"></i></a> @endif
+                                @if(setting('snapchat_url')) <a href="{{ setting('snapchat_url') }}" class="social-circle" target="_blank"><i class="fab fa-snapchat-ghost"></i></a> @endif
                             </div>
                         </div>
                     </div>

@@ -1,19 +1,3 @@
-{{-- WhatsApp CTA Band --}}
-<section style="background:var(--primary); padding:40px 0;">
-    <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-            <div class="text-white text-center text-md-start">
-                <h4 class="fw-black mb-1" style="font-size:1.3rem;">{{ __('خليك قريب') }}</h4>
-                <p class="mb-0" style="opacity:0.7; font-size:0.95rem;">{{ __('تواصل معنا عبر الوتساب للاستفسار عن خدماتنا') }}</p>
-            </div>
-            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number', '+966555555555')) }}" class="btn-primary-site" target="_blank" style="white-space:nowrap;">
-                <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
-                {{ __('تواصل معنا عبر واتساب') }}
-            </a>
-        </div>
-    </div>
-</section>
-
 <footer class="footer-legendary">
     <div class="container">
         <div class="row g-5">
@@ -27,13 +11,17 @@
                     @php
                         $socials = [
                             'facebook' => ['url' => setting('facebook_url'), 'icon' => 'fab fa-facebook-f'],
-                            'twitter' => ['url' => setting('twitter_url'), 'icon' => 'fab fa-twitter'],
+                            'twitter' => ['url' => setting('twitter_url'), 'icon' => 'fab fa-x-twitter'],
                             'instagram' => ['url' => setting('instagram_url'), 'icon' => 'fab fa-instagram'],
                             'linkedin' => ['url' => setting('linkedin_url'), 'icon' => 'fab fa-linkedin-in'],
+                            'tiktok' => ['url' => setting('tiktok_url'), 'icon' => 'fab fa-tiktok'],
+                            'snapchat' => ['url' => setting('snapchat_url'), 'icon' => 'fab fa-snapchat-ghost'],
                         ];
                     @endphp
                     @foreach($socials as $name => $data)
-                        <a href="{{ $data['url'] ?: '#' }}" class="social-link" target="_blank" aria-label="{{ $name }}"><i class="{{ $data['icon'] }}"></i></a>
+                        @if($data['url'])
+                            <a href="{{ $data['url'] }}" class="social-link" target="_blank" aria-label="{{ $name }}"><i class="{{ $data['icon'] }}"></i></a>
+                        @endif
                     @endforeach
                 </div>
             </div>

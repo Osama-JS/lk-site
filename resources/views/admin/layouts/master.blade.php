@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +13,8 @@
     <!-- Bootstrap 5.3 RTL -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
 
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome 6.5.1 (Supports X Icon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Custom Dashboard CSS -->
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
@@ -21,13 +22,24 @@
     <!-- CKEditor 5 -->
     <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
     <style>
-        .ck-editor__editable { min-height: 300px !important; }
-        .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar, .ck.ck-editor__top .ck-sticky-panel .ck-toolbar { border-radius: 8px 8px 0 0 !important; }
-        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable { border-radius: 0 0 8px 8px !important; }
+        .ck-editor__editable {
+            min-height: 300px !important;
+        }
+
+        .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
+        .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+            border-radius: 8px 8px 0 0 !important;
+        }
+
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+        .ck.ck-editor__main>.ck-editor__editable {
+            border-radius: 0 0 8px 8px !important;
+        }
     </style>
 
     @stack('styles')
 </head>
+
 <body>
 
     <div class="dashboard-container">
@@ -48,7 +60,8 @@
                         <h1 class="page-title">@yield('page_title')</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 text-sm opacity-75">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none text-muted">الرئيسية</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
+                                        class="text-decoration-none text-muted">الرئيسية</a></li>
                                 @yield('breadcrumb')
                             </ol>
                         </nav>
@@ -91,7 +104,7 @@
 
             <!-- Footer -->
             <footer class="mt-auto p-4 text-center text-muted text-sm border-top">
-                    جميع الحقوق محفوظة &copy; {{ date('Y') }} <span class="fw-bold text-primary">شركة الصفوة</span>
+                جميع الحقوق محفوظة &copy; {{ date('Y') }} <span class="fw-bold text-primary">LK </span>
             </footer>
         </main>
     </div>
@@ -113,10 +126,10 @@
     <!-- Global Delete Confirmation Script -->
     <script>
         /* ── Legacy: intercept any form[action*=destroy] submit ── */
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const deleteForms = document.querySelectorAll('form[action*="destroy"]');
             deleteForms.forEach(form => {
-                form.addEventListener('submit', function(e) {
+                form.addEventListener('submit', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: 'هل أنت متأكد؟',
@@ -168,8 +181,8 @@
 
     {{-- Sidebar Toggle (inline — always fresh, no cache issues) --}}
     <script>
-        (function() {
-            var btn     = document.getElementById('sidebarToggle');
+        (function () {
+            var btn = document.getElementById('sidebarToggle');
             var sidebar = document.querySelector('.sidebar');
             if (!btn || !sidebar) return;
 
@@ -178,15 +191,16 @@
             overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:998;';
             document.body.appendChild(overlay);
 
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 var open = sidebar.classList.toggle('active');
                 overlay.style.display = open ? 'block' : 'none';
             });
-            overlay.addEventListener('click', function() {
+            overlay.addEventListener('click', function () {
                 sidebar.classList.remove('active');
                 overlay.style.display = 'none';
             });
         })();
     </script>
 </body>
+
 </html>
