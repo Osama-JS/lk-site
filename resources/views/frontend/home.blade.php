@@ -13,7 +13,7 @@
             @forelse($sliders as $slider)
                 <div class="swiper-slide">
                     <div class="hero-slide-item">
-                        <div class="hero-slide-bg" style="background-image: url('{{ $slider->image && Storage::disk('public')->exists($slider->image) ? asset('storage/' . $slider->image) : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80' }}');"></div>
+                        <div class="hero-slide-bg" style="background-image: url('{{ $slider->image && Storage::disk('public')->exists($slider->image) ? asset('storage/' . $slider->image) : asset('images/defaults/service-placeholder.jpg') }}');"></div>
                         <div class="hero-overlay-legend"></div>
                         <div class="container position-relative" style="z-index:10;">
                             <div class="hero-content-wrap">
@@ -43,7 +43,7 @@
             @empty
                 <div class="swiper-slide">
                     <div class="hero-slide-item">
-                        <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80');"></div>
+                        <div class="hero-slide-bg" style="background-image: url('{{ asset('images/defaults/service-placeholder.jpg') }}');"></div>
                         <div class="hero-overlay-legend"></div>
                         <div class="container position-relative" style="z-index:10;">
                             <div class="hero-content-wrap">
@@ -122,7 +122,7 @@
         <div class="row align-items-center g-5">
             <div class="col-lg-6" data-aos="fade-right">
                 <div class="about-image-wrap">
-                    <img src="{{ $about->image ? asset('storage/' . $about->image) : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80' }}" alt="{{ __('عن المصنع') }}">
+                    <img src="{{ $about->image ? asset('storage/' . $about->image) : asset('images/defaults/service-placeholder.jpg') }}" alt="{{ __('عن المصنع') }}">
                     <div class="about-experience-badge" data-aos="zoom-in" data-aos-delay="300">
                         <span class="number">5+</span>
                         <span class="label">{{ __('سنوات الخبرة') }}</span>
@@ -224,7 +224,7 @@
         <div class="service-grid-legendary">
             @forelse($services as $service)
                 <div class="service-card-v3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-                    <img src="{{ $service->image ? asset('storage/' . $service->image) : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80' }}" class="service-cover" alt="{{ $service->{'title_' . app()->getLocale()} }}">
+                    <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('images/defaults/service-placeholder.jpg') }}" class="service-cover" alt="{{ $service->{'title_' . app()->getLocale()} }}">
                     <div class="service-float-body">
                         <div class="service-icon-box">
                             <i class="{{ $service->icon ?: 'fas fa-tshirt' }}"></i>
@@ -338,7 +338,7 @@
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                     <div class="activity-card-minimal" style="position:relative;">
                         <div class="activity-date">{{ $activity->created_at->format('d M, Y') }}</div>
-                        <img src="{{ $activity->image ? asset('storage/' . $activity->image) : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80' }}" class="activity-img" alt="{{ $activity->{'title_' . app()->getLocale()} }}">
+                        <img src="{{ $activity->image ? asset('storage/' . $activity->image) : asset('images/defaults/service-placeholder.jpg') }}" class="activity-img" alt="{{ $activity->{'title_' . app()->getLocale()} }}">
                         <div class="p-4">
                             <h4 class="fw-bold" style="font-size:1.1rem; margin-bottom:0.75rem;">{{ $activity->{'title_' . app()->getLocale()} }}</h4>
                             <p style="color:var(--gray-500); font-size:0.9rem;">{{ Str::limit($activity->{'description_' . app()->getLocale()}, 100) }}</p>

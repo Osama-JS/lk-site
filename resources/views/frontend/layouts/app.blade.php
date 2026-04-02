@@ -28,6 +28,9 @@
     <!-- AOS Animations -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
     <!-- Frontend CSS -->
     <link rel="stylesheet" href="{{ asset('css/frontend.css') }}?v={{ time() }}">
 
@@ -192,6 +195,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    {{-- Global Gallery Initialization --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Fancybox !== 'undefined') {
+                Fancybox.bind('[data-fancybox]', {
+                    infinite: true,
+                    dragToClose: true,
+                    hideScrollbar: true,
+                });
+            }
+        });
+    </script>
 
 
     @stack('scripts')

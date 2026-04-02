@@ -42,15 +42,15 @@
                             </div>
                         </div>
 
-                        <!-- Content (Full) -->
+                        <!-- Content -->
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small">المحتوى الكامل (عربي)</label>
-                                <textarea name="content_ar" class="form-control" rows="5">{{ old('content_ar') }}</textarea>
+                                <label class="form-label fw-bold small">المحتوى (عربي) <span class="text-danger">*</span></label>
+                                <textarea name="content_ar" id="content_ar" class="form-control" rows="8" required>{{ old('content_ar') }}</textarea>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small">المحتوى الكامل (إنجليزي)</label>
-                                <textarea name="content_en" class="form-control" rows="5">{{ old('content_en') }}</textarea>
+                                <label class="form-label fw-bold small">المحتوى (إنجليزي) <span class="text-danger">*</span></label>
+                                <textarea name="content_en" id="content_en" class="form-control" rows="8" required>{{ old('content_en') }}</textarea>
                             </div>
                         </div>
 
@@ -60,12 +60,25 @@
                                 <label class="form-label fw-bold small">أيقونة (FontAwesome Class)</label>
                                 <input type="text" name="icon" class="form-control" value="{{ old('icon') }}" placeholder="مثال: fas fa-rocket">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small">صورة الخدمة</label>
+                            <div class="col-md-6 text-center">
+                                <label class="form-label fw-bold small d-block">صورة الخدمة</label>
                                 <input type="file" name="image" class="form-control" onchange="previewImage(this, 'service-preview')">
-                                <div class="mt-2">
-                                    <img id="service-preview" src="#" alt="Preview" style="display: none; max-width: 150px; border-radius: 8px;">
+                                <div class="mt-2 text-center" style="min-height: 100px;">
+                                    <img id="service-preview" src="#" alt="Preview" style="display: none; max-width: 150px; border-radius: 8px; border: 1px solid #dee2e6; padding: 5px;">
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Images -->
+                        <div class="row g-3 mb-4 border-top pt-3">
+                            <div class="col-12">
+                                <label class="form-label fw-bold small d-block">معرض الصور الإضافي (اختياري)</label>
+                                <div class="upload-area p-4 border-dashed rounded-3 text-center bg-light" style="border: 2px dashed #cbd5e1; cursor: pointer;" onclick="document.getElementById('gallery_input').click()">
+                                    <i class="fas fa-images text-primary fs-2 mb-2"></i>
+                                    <p class="mb-0 text-muted small">اسحب وأفلت الصور هنا أو انقر للاختيار</p>
+                                    <input type="file" name="gallery[]" id="gallery_input" class="d-none" multiple onchange="previewGallery(this)">
+                                </div>
+                                <div id="gallery-preview" class="row g-2 mt-3"></div>
                             </div>
                         </div>
 
@@ -97,3 +110,84 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    /* Admin Service Management Scripts - Minification Safe */
+    
+    /* Initialize CKEditor 5 */
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof ClassicEditor !== 'undefined') {
+            ClassicEditor.create(document.querySelector('#content_ar'), {
+                language: 'ar',
+                direction: 'rtl'
+            }).catch(function(error) { console.error(error); });
+
+            ClassicEditor.create(document.querySelector('#content_en'))
+                .catch(function(error) { console.error(error); });
+        }
+    });
+
+    function previewImage(input, targetId) {
+        var preview = document.getElementById(targetId);
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewGallery(input) {
+        var container = document.getElementById('gallery-preview');
+        if (!container) return;
+        container.innerHTML = '';
+        if (input.files) {
+            Array.from(input.files).forEach(function(file) {
+                if (!file.type.match('image.*')) return;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var col = document.createElement('div');
+                    col.className = 'col-md-2 col-sm-4 position-relative mb-2';
+                    col.innerHTML = '<div class="card h-100 shadow-sm border-0 overflow-hidden"><img src="' + e.target.result + '" class="card-img-top rounded-3" style="height: 100px; object-fit: cover;"><div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-25 opacity-0 hover-opacity-100 transition-base"><span class="badge bg-white text-dark rounded-pill shadow-sm small">جديد</span></div></div>';
+                    container.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var uploadArea = document.querySelector('.upload-area');
+        var galleryInput = document.getElementById('gallery_input');
+
+        if (uploadArea && galleryInput) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function(eventName) {
+                uploadArea.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            uploadArea.addEventListener('dragenter', function() { uploadArea.classList.add('bg-light-primary'); }, false);
+            uploadArea.addEventListener('dragover', function() { uploadArea.classList.add('bg-light-primary'); }, false);
+            uploadArea.addEventListener('dragleave', function() { uploadArea.classList.remove('bg-light-primary'); }, false);
+            uploadArea.addEventListener('drop', function(e) {
+                uploadArea.classList.remove('bg-light-primary');
+                var dt = e.dataTransfer;
+                if (dt.files && dt.files.length > 0) {
+                    galleryInput.files = dt.files;
+                    previewGallery(galleryInput);
+                }
+            }, false);
+        }
+    });
+</script>
+<style>
+    .bg-light-primary { background-color: rgba(14, 165, 233, 0.1) !important; border-color: var(--accent) !important; }
+    .transition-base { transition: all 0.3s ease; }
+    .hover-opacity-100:hover { opacity: 1 !important; }
+</style>
+@endpush

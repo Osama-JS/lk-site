@@ -66,7 +66,15 @@ class ServiceController extends Controller
             $validated['image'] = $request->file('image')->store('services', 'public');
         }
 
-        Service::create($validated);
+        $service = Service::create($validated);
+
+        // Handle Gallery Images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $path = $image->store('services/gallery', 'public');
+                $service->images()->create(['image' => $path]);
+            }
+        }
 
         return redirect()->route('admin.services.index')
             ->with('success', 'تم إنشاء الخدمة بنجاح');
@@ -74,6 +82,7 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
+        $service->load('images');
         return view('admin.services.edit', compact('service'));
     }
 
@@ -90,6 +99,7 @@ class ServiceController extends Controller
             'image' => 'nullable|image|max:2048',
             'status' => 'required|in:published,draft',
             'order' => 'nullable|integer',
+            'gallery.*' => 'nullable|image|max:2048',
         ]);
 
         $validated['updated_by'] = auth()->id();
@@ -103,6 +113,14 @@ class ServiceController extends Controller
 
         $service->update($validated);
 
+        // Handle Gallery Images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $path = $image->store('services/gallery', 'public');
+                $service->images()->create(['image' => $path]);
+            }
+        }
+
         return redirect()->route('admin.services.index')
             ->with('success', 'تم تحديث الخدمة بنجاح');
     }
@@ -113,8 +131,29 @@ class ServiceController extends Controller
             Storage::disk('public')->delete($service->image);
         }
 
+        // Delete gallery images from storage
+        foreach ($service->images as $img) {
+            Storage::disk('public')->delete($img->image);
+        }
+
         $service->delete();
         return redirect()->route('admin.services.index')
             ->with('success', 'تم حذف الخدمة بنجاح');
+    }
+
+    /**
+     * Delete a specific gallery image (AJAX)
+     */
+    public function deleteImage(Request $request, $id)
+    {
+        try {
+            $image = \App\Models\ServiceImage::findOrFail($id);
+            Storage::disk('public')->delete($image->image);
+            $image->delete();
+
+            return response()->json(['success' => true, 'message' => 'تم حذف الصورة بنجاح']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء الحذف'], 500);
+        }
     }
 }

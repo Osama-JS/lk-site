@@ -26,6 +26,7 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('pages', PageController::class);
 
     // Services Management
+    Route::delete('/services/image/{id}', [ServiceController::class, 'deleteImage'])->name('services.delete-image');
     Route::resource('services', ServiceController::class);
 
     // Sliders Management

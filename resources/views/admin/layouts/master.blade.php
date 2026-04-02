@@ -18,6 +18,14 @@
     <!-- Custom Dashboard CSS -->
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
+    <!-- CKEditor 5 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <style>
+        .ck-editor__editable { min-height: 300px !important; }
+        .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar, .ck.ck-editor__top .ck-sticky-panel .ck-toolbar { border-radius: 8px 8px 0 0 !important; }
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable { border-radius: 0 0 8px 8px !important; }
+    </style>
+
     @stack('styles')
 </head>
 <body>

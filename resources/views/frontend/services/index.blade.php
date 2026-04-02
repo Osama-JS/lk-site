@@ -27,7 +27,7 @@
         <div class="service-grid-legendary">
             @forelse($services as $service)
                 <div class="service-card-v3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <img src="{{ $service->image ? asset('storage/' . $service->image) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80' }}" class="service-cover" alt="{{ $service->title_ar }}">
+                    <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('images/defaults/service-placeholder.jpg') }}" class="service-cover" alt="{{ $service->title_ar }}">
                     <div class="service-float-body">
                         <div class="service-icon-box">
                             <i class="{{ $service->icon ?: 'fas fa-rocket' }}"></i>

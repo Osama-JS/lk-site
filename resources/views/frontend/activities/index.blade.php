@@ -5,7 +5,7 @@
 @section('content')
 {{-- Inner Page Hero --}}
 <section class="inner-page-hero">
-    <div class="inner-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80')"></div>
+    <div class="inner-hero-bg" style="background-image: url('{{ asset('images/defaults/service-placeholder.jpg') }}')"></div>
     <div class="inner-hero-overlay"></div>
     <div class="container position-relative" style="z-index: 2; padding-top:80px">
         <div class="inner-hero-content">

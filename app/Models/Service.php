@@ -42,4 +42,9 @@ class Service extends Model
     {
         return $query->where('status', 'published');
     }
+
+    public function images()
+    {
+        return $this->hasMany(ServiceImage::class)->orderBy('order');
+    }
 }
