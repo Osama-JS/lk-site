@@ -57,7 +57,7 @@ class ActivityController extends Controller
         $validated = $request->validate([
             'title_ar' => 'required|string|max:255',
             'title_en' => 'nullable|string|max:255',
-            'activity_category_id' => 'nullable|exists:activity_categories,id',
+            'activity_category_id' => 'required|exists:activity_categories,id',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'image' => 'required|image|max:2048',
@@ -97,7 +97,7 @@ class ActivityController extends Controller
         $validated = $request->validate([
             'title_ar' => 'required|string|max:255',
             'title_en' => 'nullable|string|max:255',
-            'activity_category_id' => 'nullable|exists:activity_categories,id',
+            'activity_category_id' => 'required|exists:activity_categories,id',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'image' => 'nullable|image|max:2048',

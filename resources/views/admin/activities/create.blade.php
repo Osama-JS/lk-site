@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small">التصنيف</label>
-                                <select name="activity_category_id" class="form-select">
+                                <label class="form-label fw-bold small">التصنيف <span class="text-danger">*</span></label>
+                                <select name="activity_category_id" class="form-select" required>
                                     <option value="">اختر التصنيف</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ old('activity_category_id') == $category->id ? 'selected' : '' }}>
@@ -100,38 +100,35 @@
 
 @push('scripts')
 <script>
-    let editorAr, editorEn;
+    document.addEventListener('DOMContentLoaded', function() {
+        let editorAr, editorEn;
 
-    ClassicEditor
-        .create(document.querySelector('#description_ar'), {
-            language: { ui: 'ar', content: 'ar' },
-            toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
-        })
-        .then(editor => {
-            editorAr = editor;
-            editor.ui.view.editable.element.style.direction = 'rtl';
-            editor.ui.view.editable.element.style.textAlign = 'right';
-        })
-        .catch(console.error);
+        ClassicEditor
+            .create(document.querySelector('#description_ar'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
+            })
+            .then(editor => {
+                editorAr = editor;
+                editor.ui.view.editable.element.setAttribute('dir', 'rtl');
+                editor.ui.view.editable.element.style.textAlign = 'right';
+                editor.ui.view.editable.element.style.minHeight = '200px';
+            })
+            .catch(error => console.error('CKEditor Arabic error:', error));
 
-    ClassicEditor
-        .create(document.querySelector('#description_en'), {
-            language: 'en',
-            toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
-        })
-        .then(editor => {
-            editorEn = editor;
-        })
-        .catch(console.error);
+        ClassicEditor
+            .create(document.querySelector('#description_en'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
+            })
+            .then(editor => {
+                editorEn = editor;
+                editor.ui.view.editable.element.style.minHeight = '200px';
+            })
+            .catch(error => console.error('CKEditor English error:', error));
 
-    // Sync CKEditor content to textarea before form submit
-    document.querySelector('form').addEventListener('submit', function() {
-        if (editorAr) {
-            document.querySelector('#description_ar').value = editorAr.getData();
-        }
-        if (editorEn) {
-            document.querySelector('#description_en').value = editorEn.getData();
-        }
+        document.querySelector('form').addEventListener('submit', function() {
+            if (editorAr) document.querySelector('#description_ar').value = editorAr.getData();
+            if (editorEn) document.querySelector('#description_en').value = editorEn.getData();
+        });
     });
 </script>
 @endpush
