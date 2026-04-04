@@ -50,6 +50,13 @@
         </div>
 
         <div class="menu-item">
+            <a href="{{ route('admin.activity-categories.index') }}" class="menu-link {{ request()->routeIs('admin.activity-categories.*') ? 'active' : '' }}" style="padding-right: 2.25rem;">
+                <i class="fas fa-tags menu-icon" style="font-size: 0.8rem;"></i>
+                <span style="font-size: 0.875rem;">تصنيفات الأنشطة</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
             <a href="{{ route('admin.gallery.index') }}" class="menu-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
                 <i class="fas fa-photo-video menu-icon"></i>
                 <span>معرض الصور</span>

@@ -50,7 +50,7 @@
                                     <option value="">اختر التصنيف</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ $activity->activity_category_id == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
+                                            {{ $category->name_ar }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -58,15 +58,13 @@
                         </div>
 
                         <!-- Description -->
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small">وصف (عربي)</label>
-                                <textarea name="description_ar" class="form-control" rows="4">{{ old('description_ar', $activity->description_ar) }}</textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small">وصف (إنجليزي)</label>
-                                <textarea name="description_en" class="form-control" rows="4">{{ old('description_en', $activity->description_en) }}</textarea>
-                            </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small">وصف (عربي)</label>
+                            <textarea name="description_ar" id="description_ar">{{ old('description_ar', $activity->description_ar) }}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small">وصف (إنجليزي)</label>
+                            <textarea name="description_en" id="description_en">{{ old('description_en', $activity->description_en) }}</textarea>
                         </div>
 
                         <!-- Video URL -->
@@ -104,3 +102,42 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    let editorAr, editorEn;
+
+    ClassicEditor
+        .create(document.querySelector('#description_ar'), {
+            language: { ui: 'ar', content: 'ar' },
+            toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
+        })
+        .then(editor => {
+            editorAr = editor;
+            // Make the editor RTL
+            editor.ui.view.editable.element.style.direction = 'rtl';
+            editor.ui.view.editable.element.style.textAlign = 'right';
+        })
+        .catch(console.error);
+
+    ClassicEditor
+        .create(document.querySelector('#description_en'), {
+            language: 'en',
+            toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link', 'blockQuote', '|', 'undo', 'redo'],
+        })
+        .then(editor => {
+            editorEn = editor;
+        })
+        .catch(console.error);
+
+    // Sync CKEditor content to textarea before form submit
+    document.querySelector('form').addEventListener('submit', function() {
+        if (editorAr) {
+            document.querySelector('#description_ar').value = editorAr.getData();
+        }
+        if (editorEn) {
+            document.querySelector('#description_en').value = editorEn.getData();
+        }
+    });
+</script>
+@endpush
